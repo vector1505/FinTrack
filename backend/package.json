@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && cp ./package.json ./dist",
-    "dev": "ts-node-dev --files src/index.ts",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'node --loader ts-node/esm' src/index.ts",
     "start": "node ./dist/index.js"
   },
   "type": "module",
@@ -47,6 +47,7 @@
     "@types/node-cron": "^3.0.11",
     "@types/passport": "^1.0.17",
     "@types/passport-jwt": "^4.0.1",
+    "nodemon": "^3.1.10",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"
   }
