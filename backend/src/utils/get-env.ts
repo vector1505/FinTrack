@@ -1,3 +1,8 @@
+import { config } from "dotenv";
+import "dotenv/config"
+
+config({path : "../.env"})
+
 const getEnv = (key:string, defaultValue?:string):string => {
     const value = process.env[key] || defaultValue;
     if (value === undefined) {

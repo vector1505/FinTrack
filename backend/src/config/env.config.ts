@@ -5,7 +5,7 @@ const envConfig = ()=>(
         NODE_ENV : getEnv('NODE_ENV', 'development'),
         BASE_PATH: getEnv('BASE_PATH',"/api"),
         PORT : getEnv('PORT', '8000'),
-        MONGODB_URI : getEnv('MONGODB_URI',"default"),
+        MONGO_URI : getEnv('MONGO_URI'),
 
         JWT_SECRET : getEnv('JWT_SECRET',"secret_jwt"),
         JWT_EXPIRES_IN : getEnv('JWT_EXPIRES_IN',"15m") as string,

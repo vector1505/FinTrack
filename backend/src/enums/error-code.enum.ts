@@ -18,4 +18,4 @@ export const ErrorCodeEnum = {
     INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
 } as const
 
-export type ErrorCodeType = (typeof ErrorCodeEnum)[keyof typeof ErrorCodeEnum];
+export type ErrorCodeEnumType = (typeof ErrorCodeEnum)[keyof typeof ErrorCodeEnum];
