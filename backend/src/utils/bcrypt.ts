@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt"
-import e from "express";
+import express from "express";
 
 export const hashValue = async(value: string, saltRounds = 10) => {
     return await bcrypt.hash(value, saltRounds);
