@@ -1,8 +1,9 @@
 import { NotFoundException, UnauthorizedException } from "../utils/app-error.js";
-import type { RegisterSchemaType } from "../validators/auth.validator.js";
+import type { LoginSchemaType, RegisterSchemaType } from "../validators/auth.validator.js";
 import UserModel from "../models/user.model.js";
 import mongoose, { mongo } from "mongoose";
 import ReportSettingModel, { ReportFrequencyEnum } from "../models/report-setting.model.js";
+import { signJwtToken } from "../utils/jwt.js";
 
 export const registerService = async (body: RegisterSchemaType) => {
     const {email} = body;
@@ -37,4 +38,30 @@ export const registerService = async (body: RegisterSchemaType) => {
     } finally {
         await session.endSession();
     }
+}
+
+export const loginService = async (body: LoginSchemaType) => {
+    const {email, password} = body;
+
+    const user = await UserModel.findOne({email});
+
+    if(!user) {
+        throw new NotFoundException("Email/password not found");
+    }
+
+    const isPasswordValid = await user.comparePassword(password);
+    if(!isPasswordValid) {
+        throw new UnauthorizedException("Email/password not found");
+    }
+
+    const {token, expiresAt} = signJwtToken({userId: user.id});
+
+    const reportSettings = await ReportSettingModel.findOne({userID: user.id},{_id: 1, frequency: 1, isEnabled: 1}).lean();
+
+    return {
+        user: user.omitPassword(),
+        accessToken: token,
+        expiresAt,
+        reportSettings
+    };
 }
